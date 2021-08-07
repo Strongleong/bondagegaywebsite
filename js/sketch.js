@@ -1,6 +1,8 @@
 let baby;
 let base_x, base_y, size, speed;
 let width, height;
+let b_up, b_left;
+let do_offset
 
 function setup() {
     width = windowWidth - ((windowWidth / 100) * 30);
@@ -17,8 +19,11 @@ function setup() {
         speed *= height / 500;
     }
 
-    base_x = -size;
-    base_y = -size;
+    b_up   = size * 2;
+    b_left = size * 2;
+
+    base_x = -b_up;
+    base_y = -b_left;
 
     baby = loadImage('img/babyface.png');
 
@@ -32,36 +37,38 @@ function draw() {
     base_x = base_x - speed;
     base_y = base_y + speed;
 
-    if (base_x <= -size) {
-        base_x = width + size // + (-size - base_x);
+    if (base_x <= -b_left) {
+        base_x = width + b_left // + (-size - base_x);
     }
-    if (base_y >= height + size) {
-        base_y = -size + base_y - height;
+    if (base_y >= height + b_up) {
+        base_y = -b_up + base_y - height;
     }
 
-    for (let x = base_x; x <= width + size; x += size) {
+    for (let y = base_y; y <= height + b_up; y += size) {
         let do_offset = false
-        for (let y = base_y; y <= height + size; y += size) {
+        for (let x = base_x; x <= width + b_left; x += size) {
             image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            //do_offset = !do_offset
+            do_offset = !do_offset
         }
 
-        for (let y = base_y; y >= -size; y -= size) {
-            image(baby, x , y+ (do_offset ? size / 2 : 0), size, size);
-            //do_offset = !do_offset
+        do_offset = false
+        for (let x = base_x; x >= -b_up; x -= size) {
+            image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
+            do_offset = !do_offset
         }
     }
 
-    for (let x = base_x; x >= -size; x -= size) {
-        let do_offset = false
-        for (let y = base_y; y <= height + size; y += size) {
+    for (let y = base_y; y >= -b_left; y -= size) {
+        do_offset = false
+        for (let x = base_x; x <= width + b_up; x += size) {
             image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            //do_offset = !do_offset
+            do_offset = !do_offset
         }
 
-        for (let y = base_y; y >= -size; y -= size) {
+        do_offset = false
+        for (let x = base_x; x >= -b_up; x -= size) {
             image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            //do_offset = !do_offset
+            do_offset = !do_offset
         }
     }
 
