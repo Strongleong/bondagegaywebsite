@@ -1,8 +1,7 @@
 let baby;
-let base_x, base_y, size, speed;
+let offset_x, offset_y, size, speed;
 let width, height;
-let b_up, b_left;
-let do_offset;
+let border_y, border_x;
 
 function setup() {
     width = windowWidth - ((windowWidth / 100) * 30);
@@ -19,11 +18,14 @@ function setup() {
         speed *= height / 500;
     }
 
-    b_up   = size * 2;
-    b_left = size * 2;
+    border_y = size;
+    border_x = size * 2;
 
-    base_x = -b_up;
-    base_y = -b_left;
+    base_x = -border_x;
+    base_y = -border_y;
+
+    offset_x = -border_x;
+    offset_y = -border_y;
 
     baby = loadImage('img/babyface.png');
 
@@ -34,41 +36,24 @@ function draw() {
     clear();
     background(255,165,0);
 
-    base_x = base_x - speed;
-    base_y = base_y + speed;
+    draw_babies();
+}
 
-    if (base_x >= -b_left) {
-        base_x = width + base_x;
-    }
-    if (base_y >= height + b_up) {
-        base_y = -b_up + base_y - height;
-    }
+function draw_babies() {
+    offset_x = offset_x - speed;
+    offset_y = offset_y + speed;
 
-    for (let y = base_y; y <= height + b_up; y += size) {
-        let do_offset = false
-        for (let x = base_x; x <= width + b_left; x += size) {
-            image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            do_offset = !do_offset
-        }
+    if (offset_x <= -border_x - size * 2) offset_x = -border_x;
+    if (offset_y >= border_y - size) offset_y = -border_y + offset_y;
 
-        do_offset = false
-        for (let x = base_x; x >= -b_up; x -= size) {
-            image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            do_offset = !do_offset
-        }
-    }
+    for (let y = -border_y; y <= height + border_y; y += size) {
+        let do_checkerboard = false
+        for (let x = -border_x; x <= width + border_x * 2; x += size) {
+            let final_x = x + offset_x;
+            let final_y = y + (do_checkerboard ? size / 2 : 0) + offset_y;
 
-    for (let y = base_y; y >= -b_left; y -= size) {
-        do_offset = false
-        for (let x = base_x; x <= width + b_up; x += size) {
-            image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            do_offset = !do_offset
-        }
-
-        do_offset = false
-        for (let x = base_x; x >= -b_up; x -= size) {
-            image(baby, x, y + (do_offset ? size / 2 : 0), size, size);
-            do_offset = !do_offset
+            image(baby, final_x, final_y, size, size);
+            do_checkerboard = !do_checkerboard
         }
     }
 }
