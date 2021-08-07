@@ -2,11 +2,11 @@ let baby;
 let base_x, base_y, size, speed;
 let width, height;
 let b_up, b_left;
-let do_offset
+let do_offset;
 
 function setup() {
     width = windowWidth - ((windowWidth / 100) * 30);
-    height = windowHeight - ((windowHeight / 100) * 30);
+    height = windowHeight - ((windowHeight / 100) * 20);
 
     speed = 3;
 
@@ -37,8 +37,8 @@ function draw() {
     base_x = base_x - speed;
     base_y = base_y + speed;
 
-    if (base_x <= -b_left) {
-        base_x = width + b_left // + (-size - base_x);
+    if (base_x >= -b_left) {
+        base_x = width + base_x;
     }
     if (base_y >= height + b_up) {
         base_y = -b_up + base_y - height;
@@ -71,8 +71,4 @@ function draw() {
             do_offset = !do_offset
         }
     }
-
-    noFill();
-    stroke(255);
-    ellipse(base_x, base_y, size, size);
 }
