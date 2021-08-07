@@ -21,9 +21,6 @@ function setup() {
     border_y = size;
     border_x = size * 2;
 
-    base_x = -border_x;
-    base_y = -border_y;
-
     offset_x = -border_x;
     offset_y = -border_y;
 
