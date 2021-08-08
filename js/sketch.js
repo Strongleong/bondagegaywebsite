@@ -1,5 +1,5 @@
 let baby, direction;
-let offset_x, offset_y, size, speed;
+let offset_x, offset_y, size, speed, init_speed;
 let width, height, extend;
 let border_y, border_x;
 const Directions = {
@@ -17,10 +17,12 @@ function setup() {
     width = windowWidth - ((windowWidth / 100) * 30);
     height = windowHeight - ((windowHeight / 100) * 20);
 
+    init_speed = floor(random(1, 5));
+    extend = 5;
+
     let longest_screen_line = (width < height) ? width : height;
     size = longest_screen_line / 4;
-    speed = floor(random(1, 5)) * longest_screen_line / 500;
-    extend = 5;
+    speed = init_speed * longest_screen_line / 500;
 
     let rand = floor(random() * Object.keys(Directions).length);
     direction = Directions[Object.keys(Directions)[rand]];
@@ -81,7 +83,7 @@ function windowResized() {
 
     let longest_screen_line = (width < height) ? width : height;
     size = longest_screen_line / 4;
-    speed = floor(random(1, 5)) * longest_screen_line / 500;
+    speed = init_speed * longest_screen_line / 500;
 
     resizeCanvas(width, height);
 }
