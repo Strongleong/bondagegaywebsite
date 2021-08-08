@@ -1,7 +1,17 @@
 let baby, direction;
 let offset_x, offset_y, size, speed;
-let width, height;
+let width, height, extend;
 let border_y, border_x;
+const Directions = {
+    UP : "UP",
+    UP_RIGHT: "UP_RIGHT",
+    RIGHT: "RIGHT",
+    DOWN_RIGHT: "DOWN_RIGHT",
+    DOWN: "DOWN",
+    DOWN_LEFT: "DOWN_LEFT",
+    LEFT: "LEFT",
+    UP_LEFT: "UP_LEFT"
+};
 
 function setup() {
     width = windowWidth - ((windowWidth / 100) * 30);
@@ -9,14 +19,17 @@ function setup() {
 
     let longest_screen_line = (width < height) ? width : height;
     size = longest_screen_line / 4;
-    speed = random(1, 5) * longest_screen_line / 500;
+    speed = floor(random(1, 5)) * longest_screen_line / 500;
+    extend = 5;
 
-    border_y = size;
+    let rand = floor(random() * Object.keys(Directions).length);
+    direction = Directions[Object.keys(Directions)[rand]];
+
+    border_y = size * 2;
     border_x = size * 2;
-    offset_x = -border_x;
-    offset_y = -border_y;
 
-    direction = 0;
+    offset_x = 0;
+    offset_y = 0;
 
     baby = loadImage('img/babyface.png');
     createCanvas(width, height);
@@ -30,43 +43,29 @@ function draw() {
 }
 
 function draw_babies() {
-    switch (direction) {
-        case 0:
-            offset_y = offset_y - speed;
-            break;
-        case 1:
-            offset_x = offset_x + speed;
-            offset_y = offset_y - speed;
-			break;
-        case 2:
-            offset_x = offset_x + speed;
-            break;
-        case 3:
-            offset_x = offset_x + speed;
-            offset_y = offset_y + speed;
-			break;
-        case 4:
-            offset_y = offset_y + speed;
-            break;
-        case 5:
-            offset_x = offset_x - speed;
-            offset_y = offset_y + speed;
-			break;
-        case 6:
-            offset_x = offset_x - speed;
-            break;
-        case 7:
-            offset_x = offset_x - speed;
-            offset_y = offset_y - speed;
-			break;
+    if (direction === Directions.UP_LEFT || direction === Directions.UP || direction === Directions.UP_RIGHT) {
+        offset_y = offset_y - speed;
+        if (offset_y <= -border_y) offset_y = -offset_y;
+    }
+    
+    if (direction === Directions.DOWN_LEFT || direction === Directions.DOWN ||direction === Directions.DOWN_RIGHT) {
+        offset_y = offset_y + speed;
+        if (offset_y >= border_y) offset_y = -offset_y;
     }
 
-    if (offset_x <= -border_x - size * 2) offset_x = -border_x;
-    if (offset_y >= border_y - size) offset_y = -border_y + offset_y;
+    if  (direction === Directions.UP_RIGHT || direction === Directions.RIGHT || direction === Directions.DOWN_RIGHT) {
+        offset_x = offset_x + speed;
+        if (offset_x >= border_x) offset_x = -offset_x;
+    }
 
-    for (let y = -border_y; y <= height + border_y; y += size) {
+    if (direction === Directions.UP_LEFT || direction === Directions.LEFT || direction === Directions.DOWN_LEFT) {
+        offset_x = offset_x - speed;
+        if (offset_x <= -border_x) offset_x = -offset_x;
+    }
+
+    for (let y = -size * extend; y <= height + size * extend; y += size) {
         let do_checkerboard = false
-        for (let x = -border_x; x <= width + border_x * 2; x += size) {
+        for (let x = -size * extend; x <= width + size * extend; x += size) {
             let final_x = x + offset_x;
             let final_y = y + (do_checkerboard ? size / 2 : 0) + offset_y;
 
