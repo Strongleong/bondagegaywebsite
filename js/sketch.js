@@ -14,15 +14,10 @@ const Directions = {
 };
 
 function setup() {
-    width = windowWidth - ((windowWidth / 100) * 30);
-    height = windowHeight - ((windowHeight / 100) * 20);
-
     init_speed = floor(random(1, 5));
     extend = 5;
 
-    let longest_screen_line = (width < height) ? width : height;
-    size = longest_screen_line / 4;
-    speed = init_speed * longest_screen_line / 500;
+    update_screen();
 
     let rand = floor(random() * Object.keys(Directions).length);
     direction = Directions[Object.keys(Directions)[rand]];
@@ -77,13 +72,21 @@ function draw_babies() {
     }
 }
 
-function windowResized() {
+function update_screen(){
     width = windowWidth - ((windowWidth / 100) * 30);
     height = windowHeight - ((windowHeight / 100) * 20);
 
     let longest_screen_line = (width < height) ? width : height;
     size = longest_screen_line / 4;
     speed = init_speed * longest_screen_line / 500;
+}
 
+function windowResized() {
+    update_screen();
+    resizeCanvas(width, height);
+}
+
+function deviceTurned() {
+    update_screen();
     resizeCanvas(width, height);
 }
