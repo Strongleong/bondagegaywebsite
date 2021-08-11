@@ -16,3 +16,7 @@ html {
 canvas {
     width: 800px;
 }
+
+.audio {
+    display: none;
+}
