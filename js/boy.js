@@ -34,7 +34,7 @@ class Boy {
     }
 
     update() {
-        this.velocity.add(createVector(0, 0.5));
+        this.velocity.add(createVector(0, gravity));
         this.position.add(this.velocity);
 
         if (this.position.x <= 0 || this.position.x >= width - size) {

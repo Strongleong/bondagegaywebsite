@@ -11,7 +11,7 @@ class BabiesController {
     }
 
     set_direction(direction) {
-        this.direction = direction === 'random' ? Directions[floor(random(0, Directions.length))] : direction;
+        this.direction = direction === 'random' ? Directions[floor(random(0, Directions.length - 1))] : direction;
     }
 
     set_speed(speed) {

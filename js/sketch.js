@@ -6,6 +6,7 @@ let config;
 let boys_next_door;
 let start_gachi;
 let max_boys;
+let gravity;
 
 const Directions = [
      "UP",
@@ -25,6 +26,7 @@ function setup() {
     config = load_config('/config.json');
 
     max_boys = 3;
+    gravity = 0.5;
 
     border_y = size * 2;
     border_x = size * 2;
@@ -90,18 +92,17 @@ function load_config(config_file) {
     return config;
 }
 
-// TODO Пофикстить генерацию нексдоров
 function bornBoy() {
-    let x = random(size, width - size);
-    let y = height + size;
-    let ax = random(-10, 10);
-    let ay = random(-35, -16);
-
     let boys = config['boys'];
-
     let boy = boys[floor(random(0, boys.length - 1))];
-    let img = boy.imgs[floor(random(0, boy.imgs.length - 1))];
-    let sound = boy.sounds[floor(random(0, boy.sounds.length - 1))];
 
-   boys_next_door.push(new Boy(x, y, ax, ay, img, sound, boy['id']));
+   boys_next_door.push(new Boy(
+       random(size, width - size),
+       height + size,
+       random(-width / 130, width / 130),
+       random((-2 * size + gravity) / 10, (height - gravity) / -25),
+       boy.imgs[floor(random(0, boy.imgs.length - 1))],
+       boy.sounds[floor(random(0, boy.sounds.length - 1))],
+       boy['id'])
+   );
 }
