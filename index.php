@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/sketch.js"></script>
     <script src="js/gachic.js"></script>
+    <script src="js/babies_controller.js"></script>
 </head>
 <body onclick="start_party()">
     <h1>It's bondage, gay website</h1>

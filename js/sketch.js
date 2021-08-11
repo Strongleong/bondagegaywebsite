@@ -1,74 +1,48 @@
-let baby, direction;
-let offset_x, offset_y, size, speed, init_speed;
-let width, height, extend;
+let babies;
+let size, speed;
+let width, height;
 let border_y, border_x;
 let config;
 let boys_next_door;
-let frame;
 let start_gachi;
+let max_boys;
 
-const Directions = {
-    UP : "UP",
-    UP_RIGHT: "UP_RIGHT",
-    RIGHT: "RIGHT",
-    DOWN_RIGHT: "DOWN_RIGHT",
-    DOWN: "DOWN",
-    DOWN_LEFT: "DOWN_LEFT",
-    LEFT: "LEFT",
-    UP_LEFT: "UP_LEFT"
-};
+const Directions = [
+     "UP",
+    "UP_RIGHT",
+    "RIGHT",
+    "DOWN_RIGHT",
+    "DOWN",
+    "DOWN_LEFT",
+    "LEFT",
+    "UP_LEFT"
+];
 
 function setup() {
-    config = {
-        "speed"     : "random",
-        "direction" : "random"
-    }
-
-    let xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", '/config.json', false);
-    xmlhttp.send();
-    if (xmlhttp.status === 200) {
-       config = xmlhttp.responseText;
-    }
-
-    config = JSON.parse(config);
-
-    init_speed = config['speed'] === 'random' ? floor(random(1, 5)) : config['speed'];
-    extend = 5;
-
-    let index = config['direction'] === 'random' ? floor(random() * Object.keys(Directions).length) : config['direction'];
-    direction = Directions[Object.keys(Directions)[index]];
+    start_gachi = false;
 
     update_screen();
+    config = load_config('/config.json');
+
+    max_boys = 3;
 
     border_y = size * 2;
     border_x = size * 2;
 
-    offset_x = 0;
-    offset_y = 0;
-
-    frame = 0;
-    start_gachi = false;
-
+    babies = new BabiesController(config['speed'], config['direction'], loadImage('img/babyface.png'));
     boys_next_door = [];
 
-    baby = loadImage('img/babyface.png');
     createCanvas(width, height);
 }
 
 function draw() {
     clear();
     background(255,165,0);
-    draw_babies();
+    babies.update();
+    babies.draw();
 
-    if (start_gachi) {
-        if (floor(random(0, 1000)) === 1) {
-            bornBoy();
-        }
-
-        frame++;
-        if (frame >= 100) {
-            frame = 0;
+    if (start_gachi && boys_next_door.length < max_boys) {
+        if (floor(random(0, 1)) > 0.01 || frameCount % 100 === 0) {
             bornBoy();
         }
     }
@@ -83,56 +57,38 @@ function draw() {
     });
 }
 
-function draw_babies() {
-    if (direction === Directions.UP_LEFT || direction === Directions.UP || direction === Directions.UP_RIGHT) {
-        offset_y = offset_y - speed;
-        if (offset_y <= -border_y) offset_y = -offset_y;
-    }
-
-    if (direction === Directions.DOWN_LEFT || direction === Directions.DOWN ||direction === Directions.DOWN_RIGHT) {
-        offset_y = offset_y + speed;
-        if (offset_y >= border_y) offset_y = -offset_y;
-    }
-
-    if  (direction === Directions.UP_RIGHT || direction === Directions.RIGHT || direction === Directions.DOWN_RIGHT) {
-        offset_x = offset_x + speed;
-        if (offset_x >= border_x) offset_x = -offset_x;
-    }
-
-    if (direction === Directions.UP_LEFT || direction === Directions.LEFT || direction === Directions.DOWN_LEFT) {
-        offset_x = offset_x - speed;
-        if (offset_x <= -border_x) offset_x = -offset_x;
-    }
-
-    for (let y = -size * extend; y <= height + size * extend; y += size) {
-        let do_checkerboard = false
-        for (let x = -size * extend; x <= width + size * extend; x += size) {
-            let final_x = x + offset_x;
-            let final_y = y + (do_checkerboard ? size / 2 : 0) + offset_y;
-
-            image(baby, final_x, final_y, size, size);
-            do_checkerboard = !do_checkerboard
-        }
-    }
-}
-
 function update_screen(){
     width = windowWidth - ((windowWidth / 100) * 30);
     height = windowHeight - ((windowHeight / 100) * 20);
-
-    let longest_screen_line = (width < height) ? width : height;
-    size = longest_screen_line / 4;
-    speed = init_speed * longest_screen_line / 500;
+    size = min(width, height) / 4;
+    resizeCanvas(width, height);
 }
 
 function windowResized() {
     update_screen();
-    resizeCanvas(width, height);
+    babies.set_speed(config['speed']);
 }
 
 function deviceTurned() {
     update_screen();
-    resizeCanvas(width, height);
+    babies.set_speed(config['speed']);
+}
+
+function load_config(config_file) {
+    let xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", config_file, false);
+    xmlhttp.send();
+    let config;
+    if (xmlhttp.status === 200) {
+        config = JSON.parse(xmlhttp.responseText);
+    } else {
+        config = {
+            "speed": "random",
+            "direction": "random"
+        }
+    }
+
+    return config;
 }
 
 function bornBoy() {

@@ -1,4 +1,4 @@
-# GAYWEBSITE.TK IS COOL
+# BONDAGEGAYWEBSITE.TK IS COOL
 We are not fisting asses.
 
 We are not sorry.
