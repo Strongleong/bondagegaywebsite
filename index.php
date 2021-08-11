@@ -11,8 +11,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/boy.js"></script>
     <script src="js/sketch.js"></script>
-    <script src="js/gachic.js"></script>
     <script src="js/babies_controller.js"></script>
 </head>
 <body onclick="start_party()">

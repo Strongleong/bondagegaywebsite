@@ -87,10 +87,10 @@ function load_config(config_file) {
             "direction": "random"
         }
     }
-
     return config;
 }
 
+// TODO Пофикстить генерацию нексдоров
 function bornBoy() {
     let x = random(size, width - size);
     let y = height + size;
@@ -98,18 +98,10 @@ function bornBoy() {
     let ay = random(-35, -16);
 
     let boys = config['boys'];
-    let boy;
 
-    do {
-        boy = boys[floor(random(0, boys.length - 1))];
-    } while(boys_next_door.includes(boy));
-
+    let boy = boys[floor(random(0, boys.length - 1))];
     let img = boy.imgs[floor(random(0, boy.imgs.length - 1))];
-    let sound;
+    let sound = boy.sounds[floor(random(0, boy.sounds.length - 1))];
 
-    do {
-        sound = boy.sounds[floor(random(0, boy.sounds.length - 1))];
-    } while (document.getElementById(boy['id'] + sound));
-
-   boys_next_door.push(new Boy(x, y, size, ax, ay, img, sound, boy['id']));
+   boys_next_door.push(new Boy(x, y, ax, ay, img, sound, boy['id']));
 }
