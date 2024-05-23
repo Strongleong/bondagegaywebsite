@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  php:
+    container_name: gachi-php
+    image: php:8.2-fpm
+    user: "1000"
+    working_dir: "/var/www/html/"
+    volumes:
+      - ./public/admin/:/var/www/html
+      - /etc/localtime:/etc/localtime:ro
+    expose:
+      - "9000"
+
+  nginx:
+    container_name: gachi_nginx
+    image: nginx:latest
+    volumes:
+      - ./public/:/var/www/html/
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - php
+    links:
+      - php
+    ports:
+      - "8080:80"
