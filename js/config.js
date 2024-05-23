@@ -1,14 +1,17 @@
-{
-	"speed":"random",
-	"direction":"random",
-	"boys": [
+const config = {
+	babies: {
+		speed: "random",
+		direction: "random",
+		image: "/img/babyface.png",
+	},
+	boys: [
 		{
-			"id": "billy",
-			"imgs": [
+			id: "billy",
+			imgs: [
 				"billy1.png",
 				"billy2.png"
 			],
-			"sounds": [
+			sounds: [
 				"billy/AAAAAAAH.mp3",
 				"billy/Another victim.mp3",
 				"billy/Ass we can.mp3",
@@ -39,12 +42,12 @@
 			]
 		},
 		{
-			"id": "van",
-			"imgs": [
+			id: "van",
+			imgs: [
 				"van1.png",
 				"van2.png"
 			],
-			"sounds": [
+			sounds: [
 				"van/Boy next door.mp3",
 				"van/Deep dark fantasies.mp3",
 				"van/Do you like what you see.mp3",
@@ -76,12 +79,12 @@
 			]
 		},
 		{
-			"id": "unripped",
-			"imgs": [
+			id: "unripped",
+			imgs: [
 				"unripped1.png",
 				"unripped2.png"
 			],
-			"sounds": [
+			sounds: [
 				"unripped/It's macabre!.mp3",
 				"unripped/Mmmmh.mp3",
 				"unripped/Right happy to.mp3",
@@ -90,11 +93,11 @@
 			]
 		},
 		{
-			"id": "ripped",
-			"imgs": [
+			id: "ripped",
+			imgs: [
 				"ripped1.png"
 			],
-			"sounds": [
+			sounds: [
 				"ripped/It gets bigger when I pull.mp3",
 				"ripped/Our daddy told us.mp3",
 				"ripped/Rip the skin.mp3",
@@ -102,23 +105,23 @@
 			]
 		},
 		{
-			"id": "kazuya",
-			"imgs": [
+			id: "kazuya",
+			imgs: [
 				"kazuya1.png",
 				"kazuya2.png"
 			],
-			"sounds": [
+			sounds: [
 				"kazuya/Oh ho ho ganging up.mp3",
 				"kazuya/So how you feeling.mp3",
 				"kazuya/Two can play it.mp3"
 			]
 		},
 		{
-			"id": "brother",
-			"imgs": [
+			id: "brother",
+			imgs: [
 				"brother1.png"
 			],
-			"sounds": [
+			sounds: [
 				"brother/An ass I wouldn't mind fucking.mp3",
 				"brother/I love fire.mp3",
 				"brother/It turns me on.mp3",
@@ -126,11 +129,11 @@
 			]
 		},
 		{
-			"id": "mark",
-			"imgs": [
+			id: "mark",
+			imgs: [
 				"mark1.png"
 			],
-			"sounds": [
+			sounds: [
 				"mark/Beat me 1 2 3.mp3",
 				"mark/Boss of this gym.mp3",
 				"mark/Come on.mp3",
@@ -144,15 +147,15 @@
 			]
 		},
 		{
-			"id": "slave",
-			"imgs": [
+			id: "slave",
+			imgs: [
 				"slave1.png"
 			],
-			"sounds": [
+			sounds: [
 				"slave/Oh Oh Aaah Ah.mp3",
 				"slave/Thank you sir.mp3",
 				"slave/Yes sir.mp3"
 			]
 		}
 	]
-}
+};
